@@ -41,7 +41,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+One of the challanges I had finishing this project was the fourth required objective: User sees a loading state while waiting for the movies to load. I was not sure if the loading Icon was supposed to show up when the app is first booting up or every time the user refreshes the movies, I went with the former.
 
 ## License
 
