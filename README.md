@@ -63,14 +63,14 @@ One of the challanges I had finishing this project was the fourth required objec
 
 Flix is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **X** hours spent in total
+Time spent: 4 hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-- [ ] User can tap a cell to see a detail view (+5pts)
-- [ ] User can tap a tab bar button to view a grid layout of Movie Posters using a CollectionView (+5pts)
+- [x] User can tap a cell to see a detail view (+5pts)
+- [x] User can tap a tab bar button to view a grid layout of Movie Posters using a CollectionView (+5pts)
 
 The following **stretch** features are implemented:
 
@@ -87,14 +87,14 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. How to work with labels with constraints.
+2. how to work with imageViews with constraints
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<a href="https://imgur.com/K4DOTjW"><img src="https://i.imgur.com/K4DOTjW.gif" title="source: imgur.com" /></a>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -102,9 +102,11 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
+One of the most difficult parts of this part was tryinng to fix a patr of the app that was in part one. The layout of the poster, title label and overview label. Trying way longer than I should have tring to get them to work was tough. Fiddling with the contraint eventually got the ayout I wanted where the poster wasn't all warped or the overview wasn't spilling off the screen.
+
 ## License
 
-Copyright [yyyy] [name of copyright owner]
+Copyright 2018 Miguel Fletes
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
