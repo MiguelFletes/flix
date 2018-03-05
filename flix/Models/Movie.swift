@@ -28,4 +28,13 @@ class Movie {
         posterUrl = URL(string: Movie.baseURLString + poster_path!)
         backdropUrl = URL(string: Movie.baseURLString + backdrop_path!)
     }
+    class func movies(dictionaries: [[String: Any]]) -> [Movie] {
+        var movies: [Movie] = []
+        for dictionary in dictionaries {
+            let movie = Movie(dictionary: dictionary)
+            movies.append(movie)
+        }
+        
+        return movies
+    }
 }

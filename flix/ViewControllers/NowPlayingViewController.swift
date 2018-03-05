@@ -15,7 +15,7 @@ class NowPlayingViewController:
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var movies: [[String: Any]] = []
+    var movies: [Movie] = []
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -44,13 +44,22 @@ class NowPlayingViewController:
             if let error = error {
                 print(error.localizedDescription)
             } else if let data = data{
+//                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+//                //print(dataDictionary)
+//                let movies = dataDictionary["results"] as! [[String: Any]]
+//                self.movies = movies
+//                self.tableView.reloadData()
+//                self.refreshControl.endRefreshing()
+//                self.activityIndicator.stopAnimating()
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                //print(dataDictionary)
-                let movies = dataDictionary["results"] as! [[String: Any]]
-                self.movies = movies
-                self.tableView.reloadData()
-                self.refreshControl.endRefreshing()
-                self.activityIndicator.stopAnimating()
+                let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+                self.movies = []
+                for dictionary in movieDictionaries {
+                    let movie = Movie(dictionary: dictionary)
+                    print(movie.title)
+                    self.movies.append(movie)
+                }
+                
             }
         }
         task.resume()
@@ -62,19 +71,22 @@ class NowPlayingViewController:
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        let movie = movies[indexPath.row]
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
         
-        cell.titleLabel.text = title
-        cell.overviewLabel.text = overview
-        
-        let posterPathString = movie["poster_path"] as! String
-        let baseURLString = "https://image.tmdb.org/t/p/w500"
-        let posterURL = URL(string: baseURLString + posterPathString)!
-        cell.posterImageView.af_setImage(withURL: posterURL)
+        cell.movie = movies[indexPath.row]
         
         return cell
+//        let movie = movies[indexPath.row]
+//        let title = movie.title
+//        let overview = movie.overview
+//
+//        cell.titleLabel.text = title
+//        cell.overviewLabel.text = overview
+//
+//        //let posterPathString = movie.posterUrl as! String
+//       // let baseURLString = "https://image.tmdb.org/t/p/w500"
+//        let posterURL = movie.posterUrl
+//        cell.posterImageView.af_setImage(withURL: posterURL!)
+//
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -84,9 +96,8 @@ class NowPlayingViewController:
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.movie = movie
         }
-        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
