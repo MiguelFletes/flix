@@ -29,7 +29,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("In Detail View")
         if let movie = movie {
             titleLabel.text = movie.title
             releaseDateLabel.text = movie.release_date

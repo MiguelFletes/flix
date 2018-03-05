@@ -34,4 +34,22 @@ class MovieApiManager {
         }
         task.resume()
     }
+    
+    func superheroMovies(completion: @escaping ([Movie]?, Error?) -> ()) {
+        let url = URL(string: "https://api.themoviedb.org/3/movie/284053/similar?api_key=\(MovieApiManager.apiKey)")!
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        let task = session.dataTask(with: request) { (data, response, error) in
+            // This will run when the network request returns
+            if let data = data {
+                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+                
+                let movies = Movie.movies(dictionaries: movieDictionaries)
+                completion(movies, nil)
+            } else {
+                completion(nil, error)
+            }
+        }
+        task.resume()
+    }
 }

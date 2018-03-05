@@ -27,7 +27,12 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
         let width = collectionView.frame.size.width / cellsPerLine - interItemSpacingTotal / cellsPerLine
         layout.itemSize = CGSize(width: width, height: width * 3 / 2)
         
-        fetchMovies()
+        MovieApiManager().superheroMovies { (movies: [Movie]?, error: Error?) in
+            if let movies = movies {
+                self.movies = movies
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -42,32 +47,33 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
             let posterURL = URL(string: baseURLString + posterPathString)!
             cell.posterImageView.af_setImage(withURL: posterURL)
         }
+        //cell.posterImageView.af_setImage(withURL: movie.posterUrl!)
         return cell
     }
     
-    func fetchMovies() {
-        //activityIndicator.startAnimating()
-        let url = URL(string: "https://api.themoviedb.org/3/movie/284053/similar?api_key=4f50bbea03d173973faf3579523a4ca9")!
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        let task = session.dataTask(with: request) { (data, response, error) in
-            //this will run when the network request returns
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let data = data{
-                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                //print(dataDictionary)
-                let movies = Movie.movies(dictionaries: [dataDictionary])
-                //let movies = dataDictionary["results"] as! [[String: Any]]
-                self.movies = movies
-                self.collectionView.reloadData()
-                print(movies)
-                //self.refreshControl.endRefreshing()
-                //self.activityIndicator.stopAnimating()
-            }
-        }
-        task.resume()
-    }
+//    func fetchMovies() {
+//        //activityIndicator.startAnimating()
+//        let url = URL(string: "https://api.themoviedb.org/3/movie/284053/similar?api_key=4f50bbea03d173973faf3579523a4ca9")!
+//        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+//        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+//        let task = session.dataTask(with: request) { (data, response, error) in
+//            //this will run when the network request returns
+//            if let error = error {
+//                print(error.localizedDescription)
+//            } else if let data = data{
+//                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+//                //print(dataDictionary)
+//                let movies = Movie.movies(dictionaries: [dataDictionary])
+//                //let movies = dataDictionary["results"] as! [[String: Any]]
+//                self.movies = movies
+//                self.collectionView.reloadData()
+//                print(movies)
+//                //self.refreshControl.endRefreshing()
+//                //self.activityIndicator.stopAnimating()
+//            }
+//        }
+//        task.resume()
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
